@@ -1,0 +1,159 @@
+package Jogo_TrabalhoFinal;
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Timer;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class ControleTeclado extends JFrame implements KeyListener{
+
+	JPanel painel, asteroide;
+	Container c = getContentPane();
+	int x=10,y=10;
+	final int Largura = 50;
+	final int Altura = 50;
+	
+	public ControleTeclado()
+	{
+		addKeyListener(this);
+		instancias();
+		propriedades();
+		montar();
+	}
+	
+	
+	private void montar() 
+	{
+		c.add(c);
+		c.add(asteroide);
+		setContentPane(c);
+		setVisible(true);
+	}
+	
+	private void mover(char dir) 
+	{
+		switch(dir)
+		{
+		case 'd':
+			x+= 10;
+			break;
+		case 'e':
+			x-= 10;
+			break;
+		case 'c':
+			y-= 10;
+			break;
+		case 'b':
+			y+= 10;
+			break;
+		}
+		
+		painel.setBounds(x, y, Largura, Altura);
+		verificaColisao();
+	}
+
+
+	private void verificaColisao() 
+	{
+		int p1_painel_x = painel.getX() - 5;
+		int p1_painel_y = painel.getY() - 5;
+		int p2_painel_x = painel.getX() + Largura-5;
+		int p2_painel_y = painel.getY() - 5;
+		int p3_painel_x = painel.getX() + Largura-5;
+		int p3_painel_y = painel.getY() + Altura-5;
+		int p4_painel_x = painel.getX() -5;
+		int p4_painel_y = painel.getY() + Altura-5;
+		
+		int p1_asteroide_x = asteroide.getX();
+		int p1_asteroide_y = asteroide.getY();
+		int p2_asteroide_x = asteroide.getX() + Altura;
+		int p2_asteroide_y = asteroide.getY();
+		int p3_asteroide_x = asteroide.getX() + Largura;
+		int p3_asteroide_y = asteroide.getY() + Altura;
+		int p4_asteroide_x = asteroide.getX();
+		int p4_asteroide_y = asteroide.getY() + Largura;
+		
+		if(p2_painel_x> p1_asteroide_x && p3_painel_y> p1_asteroide_y && p2_painel_y < p4_asteroide_y)
+			painel.setBounds(x-= 10 , y, Largura, Altura);
+	
+		
+		
+	}
+
+
+	private void propriedades() 
+	{
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setSize(900,700);
+		
+		painel.setBackground(Color.GRAY);
+		painel.setBounds(x, y, Largura, Altura);
+		asteroide.setBackground(Color.GRAY);
+		asteroide.setBounds(500, 500, Largura, Altura);
+		
+		c.setBackground(Color.black);
+		c.setLayout(null);
+	}
+
+
+	public void instancias() 
+	{
+		painel = new JPanel();
+		asteroide = new JPanel();
+		
+	}
+
+@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+		if(e.getKeyCode()==39)
+		{
+			mover('d');
+		}
+		
+		if(e.getKeyCode()==37)
+		{
+			mover('e');
+		}
+		
+		if(e.getKeyCode()==38)
+		{
+			mover('c');
+		}
+		
+		if(e.getKeyCode()==30)
+		{
+			mover('b');
+		}
+	}
+
+	
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public static void main (String[] nargs) 
+	{
+		new ControleTeclado();
+	}
+
+	
+
+}
